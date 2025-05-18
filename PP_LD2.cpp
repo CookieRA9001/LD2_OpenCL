@@ -1,8 +1,14 @@
 #include <iostream>
-#include <CL/opencl.hpp>
 #include <fstream>
 #include <chrono>
 #include <cmath>
+#ifdef __linux__ 
+	#include <CL/cl.hpp>
+#else
+	#include <CL/opencl.hpp>
+#endif
+
+#define CL_HPP_TARGET_OPENCL_VERSION 300
 
 cl::Program setup() {
 	std::vector<cl::Platform> platforms;
