@@ -62,7 +62,7 @@ float opencl_montecarlo(
 	int power_per_unit = std::max(points / CL_DEVICE_MAX_COMPUTE_UNITS,1);
 	std::vector<int> buff_out(CL_DEVICE_MAX_COMPUTE_UNITS);
 	std::vector<int> params = { a, b, c, xmin, xmax, ymin, ymax, power_per_unit };
-	cl::Buffer outBuffer(context, CL_MEM_WRITE_ONLY, sizeof(float) * buff_out.size(), nullptr);
+	cl::Buffer outBuffer(context, CL_MEM_WRITE_ONLY, sizeof(int) * buff_out.size(), nullptr);
 	cl::Buffer paramBuffer(context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int) * params.size(), params.data()); 
 	cl::Kernel kernel(program, "matecarlo_fun");
 	kernel.setArg(0, outBuffer);
@@ -72,7 +72,7 @@ float opencl_montecarlo(
 	std::cout << "Device: " << name << " " << CL_DEVICE_MAX_COMPUTE_UNITS << "\n";
 
 	cl::CommandQueue queue(context, device);  
-	queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(CL_DEVICE_MAX_COMPUTE_UNITS));
+	queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(buff_out.size()));
 	queue.enqueueReadBuffer(outBuffer, CL_TRUE, 0, sizeof(float) * buff_out.size(), buff_out.data());
 
 	queue.finish();
