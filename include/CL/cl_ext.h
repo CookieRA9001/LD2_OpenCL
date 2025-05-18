@@ -52,7 +52,7 @@ extern "C" {
     "cl_khr_command_buffer"
 
 
-#define CL_KHR_COMMAND_BUFFER_EXTENSION_VERSION CL_MAKE_VERSION(0, 9, 5)
+#define CL_KHR_COMMAND_BUFFER_EXTENSION_VERSION CL_MAKE_VERSION(0, 9, 4)
 
 typedef cl_bitfield         cl_device_command_buffer_capabilities_khr;
 typedef struct _cl_command_buffer_khr* cl_command_buffer_khr;
@@ -61,7 +61,7 @@ typedef cl_uint             cl_command_buffer_info_khr;
 typedef cl_uint             cl_command_buffer_state_khr;
 typedef cl_properties       cl_command_buffer_properties_khr;
 typedef cl_bitfield         cl_command_buffer_flags_khr;
-typedef cl_properties       cl_command_properties_khr;
+typedef cl_properties       cl_ndrange_kernel_command_properties_khr;
 typedef struct _cl_mutable_command_khr* cl_mutable_command_khr;
 
 /* cl_device_info */
@@ -149,7 +149,6 @@ typedef cl_int CL_API_CALL
 clCommandBarrierWithWaitListKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_uint num_sync_points_in_wait_list,
     const cl_sync_point_khr* sync_point_wait_list,
     cl_sync_point_khr* sync_point,
@@ -162,7 +161,6 @@ typedef cl_int CL_API_CALL
 clCommandCopyBufferKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_buffer,
     cl_mem dst_buffer,
     size_t src_offset,
@@ -180,7 +178,6 @@ typedef cl_int CL_API_CALL
 clCommandCopyBufferRectKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_buffer,
     cl_mem dst_buffer,
     const size_t* src_origin,
@@ -202,7 +199,6 @@ typedef cl_int CL_API_CALL
 clCommandCopyBufferToImageKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_buffer,
     cl_mem dst_image,
     size_t src_offset,
@@ -220,7 +216,6 @@ typedef cl_int CL_API_CALL
 clCommandCopyImageKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_image,
     cl_mem dst_image,
     const size_t* src_origin,
@@ -238,7 +233,6 @@ typedef cl_int CL_API_CALL
 clCommandCopyImageToBufferKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_image,
     cl_mem dst_buffer,
     const size_t* src_origin,
@@ -256,7 +250,6 @@ typedef cl_int CL_API_CALL
 clCommandFillBufferKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem buffer,
     const void* pattern,
     size_t pattern_size,
@@ -274,7 +267,6 @@ typedef cl_int CL_API_CALL
 clCommandFillImageKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem image,
     const void* fill_color,
     const size_t* origin,
@@ -291,7 +283,7 @@ typedef cl_int CL_API_CALL
 clCommandNDRangeKernelKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
+    const cl_ndrange_kernel_command_properties_khr* properties,
     cl_kernel kernel,
     cl_uint work_dim,
     const size_t* global_work_offset,
@@ -304,6 +296,37 @@ clCommandNDRangeKernelKHR_t(
 
 typedef clCommandNDRangeKernelKHR_t *
 clCommandNDRangeKernelKHR_fn ;
+
+typedef cl_int CL_API_CALL
+clCommandSVMMemcpyKHR_t(
+    cl_command_buffer_khr command_buffer,
+    cl_command_queue command_queue,
+    void* dst_ptr,
+    const void* src_ptr,
+    size_t size,
+    cl_uint num_sync_points_in_wait_list,
+    const cl_sync_point_khr* sync_point_wait_list,
+    cl_sync_point_khr* sync_point,
+    cl_mutable_command_khr* mutable_handle);
+
+typedef clCommandSVMMemcpyKHR_t *
+clCommandSVMMemcpyKHR_fn CL_API_SUFFIX__VERSION_2_0;
+
+typedef cl_int CL_API_CALL
+clCommandSVMMemFillKHR_t(
+    cl_command_buffer_khr command_buffer,
+    cl_command_queue command_queue,
+    void* svm_ptr,
+    const void* pattern,
+    size_t pattern_size,
+    size_t size,
+    cl_uint num_sync_points_in_wait_list,
+    const cl_sync_point_khr* sync_point_wait_list,
+    cl_sync_point_khr* sync_point,
+    cl_mutable_command_khr* mutable_handle);
+
+typedef clCommandSVMMemFillKHR_t *
+clCommandSVMMemFillKHR_fn CL_API_SUFFIX__VERSION_2_0;
 
 typedef cl_int CL_API_CALL
 clGetCommandBufferInfoKHR_t(
@@ -350,7 +373,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandBarrierWithWaitListKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_uint num_sync_points_in_wait_list,
     const cl_sync_point_khr* sync_point_wait_list,
     cl_sync_point_khr* sync_point,
@@ -360,7 +382,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandCopyBufferKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_buffer,
     cl_mem dst_buffer,
     size_t src_offset,
@@ -375,7 +396,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandCopyBufferRectKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_buffer,
     cl_mem dst_buffer,
     const size_t* src_origin,
@@ -394,7 +414,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandCopyBufferToImageKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_buffer,
     cl_mem dst_image,
     size_t src_offset,
@@ -409,7 +428,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandCopyImageKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_image,
     cl_mem dst_image,
     const size_t* src_origin,
@@ -424,7 +442,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandCopyImageToBufferKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem src_image,
     cl_mem dst_buffer,
     const size_t* src_origin,
@@ -439,7 +456,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandFillBufferKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem buffer,
     const void* pattern,
     size_t pattern_size,
@@ -454,7 +470,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandFillImageKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     cl_mem image,
     const void* fill_color,
     const size_t* origin,
@@ -468,7 +483,7 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandNDRangeKernelKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
+    const cl_ndrange_kernel_command_properties_khr* properties,
     cl_kernel kernel,
     cl_uint work_dim,
     const size_t* global_work_offset,
@@ -495,7 +510,6 @@ typedef cl_int CL_API_CALL
 clCommandSVMMemcpyKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     void* dst_ptr,
     const void* src_ptr,
     size_t size,
@@ -511,7 +525,6 @@ typedef cl_int CL_API_CALL
 clCommandSVMMemFillKHR_t(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     void* svm_ptr,
     const void* pattern,
     size_t pattern_size,
@@ -530,7 +543,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandSVMMemcpyKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     void* dst_ptr,
     const void* src_ptr,
     size_t size,
@@ -543,7 +555,6 @@ extern CL_API_ENTRY cl_int CL_API_CALL
 clCommandSVMMemFillKHR(
     cl_command_buffer_khr command_buffer,
     cl_command_queue command_queue,
-    const cl_command_properties_khr* properties,
     void* svm_ptr,
     const void* pattern,
     size_t pattern_size,
@@ -552,6 +563,14 @@ clCommandSVMMemFillKHR(
     const cl_sync_point_khr* sync_point_wait_list,
     cl_sync_point_khr* sync_point,
     cl_mutable_command_khr* mutable_handle) CL_API_SUFFIX__VERSION_2_0;
+
+extern CL_API_ENTRY cl_int CL_API_CALL
+clGetCommandBufferInfoKHR(
+    cl_command_buffer_khr command_buffer,
+    cl_command_buffer_info_khr param_name,
+    size_t param_value_size,
+    void* param_value,
+    size_t* param_value_size_ret) ;
 
 #endif /* !defined(CL_NO_NON_ICD_DISPATCH_EXTENSION_PROTOTYPES) */
 
@@ -623,9 +642,9 @@ clRemapCommandBufferKHR(
     "cl_khr_command_buffer_mutable_dispatch"
 
 
-#define CL_KHR_COMMAND_BUFFER_MUTABLE_DISPATCH_EXTENSION_VERSION CL_MAKE_VERSION(0, 9, 3)
+#define CL_KHR_COMMAND_BUFFER_MUTABLE_DISPATCH_EXTENSION_VERSION CL_MAKE_VERSION(0, 9, 1)
 
-typedef cl_uint             cl_command_buffer_update_type_khr;
+typedef cl_uint             cl_command_buffer_structure_type_khr;
 typedef cl_bitfield         cl_mutable_dispatch_fields_khr;
 typedef cl_uint             cl_mutable_command_info_khr;
 typedef struct _cl_mutable_dispatch_arg_khr {
@@ -639,6 +658,8 @@ typedef struct _cl_mutable_dispatch_exec_info_khr {
     const void* param_value;
 } cl_mutable_dispatch_exec_info_khr;
 typedef struct _cl_mutable_dispatch_config_khr {
+    cl_command_buffer_structure_type_khr type;
+    const void* next;
     cl_mutable_command_khr command;
     cl_uint num_args;
     cl_uint num_svm_args;
@@ -651,6 +672,12 @@ typedef struct _cl_mutable_dispatch_config_khr {
     const size_t* global_work_size;
     const size_t* local_work_size;
 } cl_mutable_dispatch_config_khr;
+typedef struct _cl_mutable_base_config_khr {
+    cl_command_buffer_structure_type_khr type;
+    const void* next;
+    cl_uint num_mutable_dispatch;
+    const cl_mutable_dispatch_config_khr* mutable_dispatch_list;
+} cl_mutable_base_config_khr;
 typedef cl_bitfield         cl_mutable_dispatch_asserts_khr;
 
 /* cl_command_buffer_flags_khr - bitfield */
@@ -662,7 +689,7 @@ typedef cl_bitfield         cl_mutable_dispatch_asserts_khr;
 /* cl_device_info */
 #define CL_DEVICE_MUTABLE_DISPATCH_CAPABILITIES_KHR         0x12B0
 
-/* cl_command_properties_khr */
+/* cl_ndrange_kernel_command_properties_khr */
 #define CL_MUTABLE_DISPATCH_UPDATABLE_FIELDS_KHR            0x12B1
 
 /* cl_mutable_dispatch_fields_khr - bitfield */
@@ -676,20 +703,21 @@ typedef cl_bitfield         cl_mutable_dispatch_asserts_khr;
 #define CL_MUTABLE_COMMAND_COMMAND_QUEUE_KHR                0x12A0
 #define CL_MUTABLE_COMMAND_COMMAND_BUFFER_KHR               0x12A1
 #define CL_MUTABLE_COMMAND_COMMAND_TYPE_KHR                 0x12AD
-#define CL_MUTABLE_COMMAND_PROPERTIES_ARRAY_KHR             0x12A2
+#define CL_MUTABLE_DISPATCH_PROPERTIES_ARRAY_KHR            0x12A2
 #define CL_MUTABLE_DISPATCH_KERNEL_KHR                      0x12A3
 #define CL_MUTABLE_DISPATCH_DIMENSIONS_KHR                  0x12A4
 #define CL_MUTABLE_DISPATCH_GLOBAL_WORK_OFFSET_KHR          0x12A5
 #define CL_MUTABLE_DISPATCH_GLOBAL_WORK_SIZE_KHR            0x12A6
 #define CL_MUTABLE_DISPATCH_LOCAL_WORK_SIZE_KHR             0x12A7
 
-/* cl_command_buffer_update_type_khr */
-#define CL_STRUCTURE_TYPE_MUTABLE_DISPATCH_CONFIG_KHR       0
+/* cl_command_buffer_structure_type_khr */
+#define CL_STRUCTURE_TYPE_MUTABLE_BASE_CONFIG_KHR           0
+#define CL_STRUCTURE_TYPE_MUTABLE_DISPATCH_CONFIG_KHR       1
 
 /* cl_command_buffer_properties_khr */
 #define CL_COMMAND_BUFFER_MUTABLE_DISPATCH_ASSERTS_KHR      0x12B7
 
-/* cl_command_properties_khr */
+/* cl_ndrange_kernel_command_properties_khr */
 #define CL_MUTABLE_DISPATCH_ASSERTS_KHR                     0x12B8
 
 /* cl_mutable_dispatch_asserts_khr - bitfield */
@@ -699,9 +727,7 @@ typedef cl_bitfield         cl_mutable_dispatch_asserts_khr;
 typedef cl_int CL_API_CALL
 clUpdateMutableCommandsKHR_t(
     cl_command_buffer_khr command_buffer,
-    cl_uint num_configs,
-    const cl_command_buffer_update_type_khr* config_types,
-    const void** configs);
+    const cl_mutable_base_config_khr* mutable_config);
 
 typedef clUpdateMutableCommandsKHR_t *
 clUpdateMutableCommandsKHR_fn ;
@@ -722,9 +748,7 @@ clGetMutableCommandInfoKHR_fn ;
 extern CL_API_ENTRY cl_int CL_API_CALL
 clUpdateMutableCommandsKHR(
     cl_command_buffer_khr command_buffer,
-    cl_uint num_configs,
-    const cl_command_buffer_update_type_khr* config_types,
-    const void** configs) ;
+    const cl_mutable_base_config_khr* mutable_config) ;
 
 extern CL_API_ENTRY cl_int CL_API_CALL
 clGetMutableCommandInfoKHR(
@@ -1076,6 +1100,50 @@ clCreateCommandQueueWithPropertiesKHR(
 #define CL_DEVICE_GPU_OVERLAP_NV                            0x4004
 #define CL_DEVICE_KERNEL_EXEC_TIMEOUT_NV                    0x4005
 #define CL_DEVICE_INTEGRATED_MEMORY_NV                      0x4006
+#define CL_DEVICE_ATTRIBUTE_ASYNC_ENGINE_COUNT_NV           0x4007
+#define CL_DEVICE_PCI_BUS_ID_NV                             0x4008
+#define CL_DEVICE_PCI_SLOT_ID_NV                            0x4009
+#define CL_DEVICE_PCI_DOMAIN_ID_NV                          0x400A
+#define CL_DEVICE_MAX_LOCAL_MEMORY_PER_SM_NV                0x400B
+
+/******************************************
+* cl_nv_create_buffer extension *
+******************************************/
+
+typedef cl_bitfield         cl_mem_flags_NV;
+CL_API_ENTRY cl_mem CL_API_CALL
+clCreateBufferNV(cl_context     context,
+               cl_mem_flags     flags,
+               cl_mem_flags_NV  flags_NV,
+               size_t           size,
+               void             *host_ptr,
+               cl_int           *errcode_ret);
+
+/******************************************
+* cl_kernel_attribute_nv extension *
+*******************************************/
+
+typedef enum kernel_attribute_enum {
+    CL_KERNEL_PREFERRED_LOCAL_MEMORY_SIZE_NV = 0,   /* setting preferred shared memory size */
+} cl_kernel_attribute_nv;
+
+CL_API_ENTRY cl_int CL_API_CALL
+clSetKernelAttributeNV(cl_kernel kernel,
+                       cl_device_id device,
+                       cl_kernel_attribute_nv k_attr,
+                       size_t param_value_size,
+                       const void *param_value);
+
+CL_API_ENTRY cl_int CL_API_CALL
+clGetKernelAttributeNV(cl_kernel kernel,
+                       cl_device_id device,
+                       cl_kernel_attribute_nv k_attr,
+                       size_t param_value_size,
+                       void *param_value,
+                       size_t *param_value_size_ret);
+
+#define CL_MEM_LOCATION_HOST_NV                     (1 << 0)
+#define CL_MEM_PINNED_NV                            (1 << 1)
 
 /***************************************************************
 * cl_amd_device_attribute_query
@@ -1132,7 +1200,7 @@ clCreateCommandQueueWithPropertiesKHR(
     "cl_ext_device_fission"
 
 
-#define CL_EXT_DEVICE_FISSION_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
+#define CL_EXT_DEVICE_FISSION_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 typedef cl_ulong            cl_device_partition_property_ext;
 
@@ -1221,7 +1289,7 @@ clCreateSubDevicesEXT(
     "cl_ext_migrate_memobject"
 
 
-#define CL_EXT_MIGRATE_MEMOBJECT_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
+#define CL_EXT_MIGRATE_MEMOBJECT_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 typedef cl_bitfield         cl_mem_migration_flags_ext;
 
@@ -1267,7 +1335,7 @@ clEnqueueMigrateMemObjectEXT(
     "cl_ext_cxx_for_opencl"
 
 
-#define CL_EXT_CXX_FOR_OPENCL_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
+#define CL_EXT_CXX_FOR_OPENCL_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 /* cl_device_info */
 #define CL_DEVICE_CXX_FOR_OPENCL_NUMERIC_VERSION_EXT        0x4230
@@ -1838,7 +1906,7 @@ typedef struct _cl_device_integer_dot_product_acceleration_properties_khr {
     "cl_khr_external_memory"
 
 
-#define CL_KHR_EXTERNAL_MEMORY_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 1)
+#define CL_KHR_EXTERNAL_MEMORY_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
 
 typedef cl_uint             cl_external_memory_handle_type_khr;
 
@@ -1911,11 +1979,21 @@ clEnqueueReleaseExternalMemObjectsKHR(
 #define CL_KHR_EXTERNAL_MEMORY_DMA_BUF_EXTENSION_NAME \
     "cl_khr_external_memory_dma_buf"
 
-
-#define CL_KHR_EXTERNAL_MEMORY_DMA_BUF_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
-
 /* cl_external_memory_handle_type_khr */
 #define CL_EXTERNAL_MEMORY_HANDLE_DMA_BUF_KHR               0x2067
+
+/***************************************************************
+* cl_khr_external_memory_dx
+***************************************************************/
+#define cl_khr_external_memory_dx 1
+#define CL_KHR_EXTERNAL_MEMORY_DX_EXTENSION_NAME \
+    "cl_khr_external_memory_dx"
+
+/* cl_external_memory_handle_type_khr */
+#define CL_EXTERNAL_MEMORY_HANDLE_D3D11_TEXTURE_KHR         0x2063
+#define CL_EXTERNAL_MEMORY_HANDLE_D3D11_TEXTURE_KMT_KHR     0x2064
+#define CL_EXTERNAL_MEMORY_HANDLE_D3D12_HEAP_KHR            0x2065
+#define CL_EXTERNAL_MEMORY_HANDLE_D3D12_RESOURCE_KHR        0x2066
 
 /***************************************************************
 * cl_khr_external_memory_opaque_fd
@@ -1938,7 +2016,7 @@ clEnqueueReleaseExternalMemObjectsKHR(
     "cl_khr_external_memory_win32"
 
 
-#define CL_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_VERSION CL_MAKE_VERSION(1, 1, 0)
+#define CL_KHR_EXTERNAL_MEMORY_WIN32_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
 
 /* cl_external_memory_handle_type_khr */
 #define CL_EXTERNAL_MEMORY_HANDLE_OPAQUE_WIN32_KHR          0x2061
@@ -1953,7 +2031,7 @@ clEnqueueReleaseExternalMemObjectsKHR(
     "cl_khr_external_semaphore"
 
 
-#define CL_KHR_EXTERNAL_SEMAPHORE_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 1)
+#define CL_KHR_EXTERNAL_SEMAPHORE_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
 
 typedef struct _cl_semaphore_khr * cl_semaphore_khr;
 typedef cl_uint             cl_external_semaphore_handle_type_khr;
@@ -1998,6 +2076,16 @@ clGetSemaphoreHandleForTypeKHR(
     size_t* handle_size_ret) CL_API_SUFFIX__VERSION_1_2;
 
 #endif /* !defined(CL_NO_NON_ICD_DISPATCH_EXTENSION_PROTOTYPES) */
+
+/***************************************************************
+* cl_khr_external_semaphore_dx_fence
+***************************************************************/
+#define cl_khr_external_semaphore_dx_fence 1
+#define CL_KHR_EXTERNAL_SEMAPHORE_DX_FENCE_EXTENSION_NAME \
+    "cl_khr_external_semaphore_dx_fence"
+
+/* cl_external_semaphore_handle_type_khr */
+#define CL_SEMAPHORE_HANDLE_D3D12_FENCE_KHR                 0x2059
 
 /***************************************************************
 * cl_khr_external_semaphore_opaque_fd
@@ -2055,7 +2143,7 @@ clReImportSemaphoreSyncFdKHR(
     "cl_khr_external_semaphore_win32"
 
 
-#define CL_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_VERSION CL_MAKE_VERSION(0, 9, 1)
+#define CL_KHR_EXTERNAL_SEMAPHORE_WIN32_EXTENSION_VERSION CL_MAKE_VERSION(0, 9, 0)
 
 /* cl_external_semaphore_handle_type_khr */
 #define CL_SEMAPHORE_HANDLE_OPAQUE_WIN32_KHR                0x2056
@@ -2920,12 +3008,10 @@ typedef struct _cl_motion_estimation_desc_intel {
 
 #define CL_INTEL_DRIVER_DIAGNOSTICS_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
-typedef cl_bitfield         cl_diagnostic_verbose_level_intel;
+typedef cl_uint             cl_diagnostics_verbose_level;
 
 /* cl_context_properties */
 #define CL_CONTEXT_SHOW_DIAGNOSTICS_INTEL                   0x4106
-
-/* cl_diagnostic_verbose_level_intel */
 #define CL_CONTEXT_DIAGNOSTICS_LEVEL_ALL_INTEL              0xff
 #define CL_CONTEXT_DIAGNOSTICS_LEVEL_GOOD_INTEL             (1 << 0)
 #define CL_CONTEXT_DIAGNOSTICS_LEVEL_BAD_INTEL              (1 << 1)
@@ -3673,7 +3759,7 @@ typedef struct _cl_queue_family_properties_intel {
     "cl_ext_image_requirements_info"
 
 
-#define CL_EXT_IMAGE_REQUIREMENTS_INFO_EXTENSION_VERSION CL_MAKE_VERSION(0, 5, 0)
+#define CL_EXT_IMAGE_REQUIREMENTS_INFO_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 /* Types */
 typedef cl_uint             cl_image_requirements_info_ext;
@@ -3732,7 +3818,7 @@ clGetImageRequirementsInfoEXT(
     "cl_ext_image_from_buffer"
 
 
-#define CL_EXT_IMAGE_FROM_BUFFER_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
+#define CL_EXT_IMAGE_FROM_BUFFER_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 /* cl_image_requirements_info_ext */
 #define CL_IMAGE_REQUIREMENTS_SLICE_PITCH_ALIGNMENT_EXT     0x1291
@@ -3803,7 +3889,7 @@ clGetICDLoaderInfoOCLICD(
     "cl_ext_float_atomics"
 
 
-#define CL_EXT_FLOAT_ATOMICS_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
+#define CL_EXT_FLOAT_ATOMICS_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 typedef cl_bitfield         cl_device_fp_atomic_capabilities_ext;
 
@@ -3870,7 +3956,7 @@ clSetContentSizeBufferPoCL(
     "cl_ext_image_raw10_raw12"
 
 
-#define CL_EXT_IMAGE_RAW10_RAW12_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
+#define CL_EXT_IMAGE_RAW10_RAW12_EXTENSION_VERSION CL_MAKE_VERSION(0, 0, 0)
 
 /* cl_channel_type */
 #define CL_UNSIGNED_INT_RAW10_EXT                           0x10E3
@@ -4175,19 +4261,6 @@ typedef cl_bitfield         cl_device_kernel_clock_capabilities_khr;
 
 
 #define CL_KHR_WORK_GROUP_UNIFORM_ARITHMETIC_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
-
-/***************************************************************
-* cl_ext_image_unorm_int_2_101010
-***************************************************************/
-#define cl_ext_image_unorm_int_2_101010 1
-#define CL_EXT_IMAGE_UNORM_INT_2_101010_EXTENSION_NAME \
-    "cl_ext_image_unorm_int_2_101010"
-
-
-#define CL_EXT_IMAGE_UNORM_INT_2_101010_EXTENSION_VERSION CL_MAKE_VERSION(1, 0, 0)
-
-/* cl_channel_type */
-#define CL_UNORM_INT_2_101010_EXT                           0x10E5
 
 /***************************************************************
 * cl_img_cancel_command
