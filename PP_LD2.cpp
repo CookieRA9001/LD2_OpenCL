@@ -75,9 +75,9 @@ float opencl_montecarlo(
 	queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(CL_DEVICE_MAX_COMPUTE_UNITS));
 	queue.enqueueReadBuffer(outBuffer, CL_TRUE, 0, sizeof(float) * buff_out.size(), buff_out.data());
 
-	cl::finish();
+	queue.finish();
 
-	signed long long int count = 0.0f;
+	float count = 0.0f;
 	for (int v : buff_out) count += v;
 	return (float)count / (float)(points) * (xmax - xmin) * (ymax - ymin);;
 }
