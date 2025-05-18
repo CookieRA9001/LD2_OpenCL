@@ -7,11 +7,11 @@
 cl::Program setup() {
 	std::vector<cl::Platform> platforms;
 	cl::Platform::get(&platforms);
-	_ASSERT(platforms.size() > 0); // "No OpenCL platforms found."
+	//_ASSERT(platforms.size() > 0); // "No OpenCL platforms found."
 	auto platform = platforms[0];
 	std::vector<cl::Device> devices;
 	platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
-	_ASSERT(devices.size() > 0); // "No OpenCL devices found."
+	//_ASSERT(devices.size() > 0); // "No OpenCL devices found."
 	auto device = devices[0];
 
 	std::ifstream matecarlo("matecarlo.cl");
